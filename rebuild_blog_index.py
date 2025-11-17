@@ -192,6 +192,18 @@ def generate_index_page(articles, page_num, total_pages):
         with open(template_file, 'r', encoding='utf-8') as f:
             template = f.read()
 
+        # Fix relative paths for paginated pages
+        if page_num > 1:
+            # Fix CSS and asset paths for nested pages (blog/page/2/)
+            # From blog/page/2/ -> blog/assets/ needs ../../assets/
+            template = template.replace('href="assets/', 'href="../../assets/')
+            template = template.replace('src="assets/', 'src="../../assets/')
+            # From blog/page/2/ -> ../images/ becomes ../../images/ (going to root/images/)
+            template = template.replace('href="../images/', 'href="../../../images/')
+            template = template.replace('src="../images/', 'src="../../../images/')
+            template = template.replace('href="../css/', 'href="../../../css/')
+            template = template.replace('src="../js/', 'src="../../../js/')
+
         # Extract header (everything before posts-loop div content)
         header_match = re.search(r'(.*?<div class="posts-loop">\s*)', template, re.DOTALL)
         header = header_match.group(1) if header_match else ""
