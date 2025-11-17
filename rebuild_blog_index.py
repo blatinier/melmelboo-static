@@ -166,15 +166,14 @@ def generate_index_page(articles, page_num, total_pages):
         with open(template_file, 'r', encoding='utf-8') as f:
             template = f.read()
 
-        # Extract header (everything before first <article>)
-        header_match = re.search(r'(.*?)<article', template, re.DOTALL)
+        # Extract header (everything before posts-loop div content)
+        header_match = re.search(r'(.*?<div class="posts-loop">\s*)', template, re.DOTALL)
         header = header_match.group(1) if header_match else ""
 
-        # Extract footer (everything after last </article> and pagination)
-        footer_match = re.search(r'</nav>(.*)$', template, re.DOTALL)
-        if not footer_match:
-            footer_match = re.search(r'</article>(.*?)$', template, re.DOTALL)
-        footer = footer_match.group(1) if footer_match else "</main></body></html>"
+        # Extract footer (everything after </div> that closes posts-loop, before closing </body>)
+        # Look for the closing div after pagination or articles
+        footer_match = re.search(r'</div>\s*(</main>.*?</body>.*?</html>)', template, re.DOTALL)
+        footer = "\n</div>\n" + footer_match.group(1) if footer_match else "\n</div>\n</main>\n</body>\n</html>"
 
         # Combine
         return header + "\n".join(posts_html) + pagination + footer
