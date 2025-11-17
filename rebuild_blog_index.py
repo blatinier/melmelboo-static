@@ -172,8 +172,18 @@ def generate_index_page(articles, page_num, total_pages):
     # Generate pagination
     pagination = ""
     if total_pages > 1:
-        prev_page = f'<a class="older-posts" href="/blog/page/{page_num - 1}/">← Older Posts</a>' if page_num > 1 else ""
-        next_page = f'<a class="newer-posts" href="/blog/page/{page_num + 1}/">Newer Posts →</a>' if page_num < total_pages else ""
+        # Page 1 should link to /blog/ not /blog/page/1/
+        if page_num > 1:
+            prev_url = "/blog/" if page_num == 2 else f"/blog/page/{page_num - 1}/"
+            prev_page = f'<a class="older-posts" href="{prev_url}"></a>'
+        else:
+            prev_page = ""
+
+        if page_num < total_pages:
+            next_page = f'<a class="newer-posts" href="/blog/page/{page_num + 1}/"></a>'
+        else:
+            next_page = ""
+
         page_number = f'<span class="page-number">Page {page_num} of {total_pages}</span>'
 
         pagination = f"""
