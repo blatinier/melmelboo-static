@@ -143,25 +143,29 @@ def generate_index_page(articles, page_num, total_pages):
     for article in page_articles:
         # Use original blog format with image and columns
         image_html = f'<img style="width:92%;" alt="{article["title"]}" src="{article["image"]}" />' if article["image"] else ""
+
+        # Make article URLs absolute for paginated pages
+        article_url = f"/blog/{article['url']}" if page_num > 1 else article['url']
+
         post_html = f"""<article class="post tag-getting-started row">
   <header class="col-lg-4 post-loop-header">
-    <a href="{article['url']}">
+    <a href="{article_url}">
       {image_html}
     </a>
   </header>
   <section class="post-excerpt col-lg-8">
       <h2 class="post-title">
-        <a href="{article['url']}">
+        <a href="{article_url}">
           {article['title']}
         </a>
       </h2>
       <p>
-        <a href="{article['url']}">
+        <a href="{article_url}">
           {article['excerpt']}...
         </a>
       </p>
       <p class="read-more">
-        <a href="{article['url']}">
+        <a href="{article_url}">
           Lire la suite →
         </a>
       </p>
