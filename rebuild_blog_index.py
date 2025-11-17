@@ -27,7 +27,8 @@ class ArticleParser(HTMLParser):
         self.author = ""
         self.url = ""
         self.in_title = False
-        self.in_excerpt = False
+        self.in_content = False
+        self.content_text = ""
 
     def handle_starttag(self, tag, attrs):
         attrs_dict = dict(attrs)
@@ -36,9 +37,9 @@ class ArticleParser(HTMLParser):
         if tag == "h1" and attrs_dict.get("class") == "post-title":
             self.in_title = True
 
-        # Extract excerpt
-        if tag == "section" and "post-excerpt" in attrs_dict.get("class", ""):
-            self.in_excerpt = True
+        # Extract content for excerpt
+        if tag == "section" and "post-content" in attrs_dict.get("class", ""):
+            self.in_content = True
 
         # Extract featured image
         if tag == "meta":
@@ -48,18 +49,28 @@ class ArticleParser(HTMLParser):
                 self.date = attrs_dict.get("content", "")
             elif attrs_dict.get("property") == "og:url":
                 self.url = attrs_dict.get("content", "")
+            elif attrs_dict.get("name") == "description":
+                # Fallback to meta description for excerpt
+                if not self.excerpt:
+                    self.excerpt = attrs_dict.get("content", "")
 
     def handle_data(self, data):
         if self.in_title:
             self.title += data.strip()
-        if self.in_excerpt:
-            self.excerpt += data.strip()
+        if self.in_content:
+            # Collect content text for excerpt
+            text = data.strip()
+            if text:
+                self.content_text += " " + text
 
     def handle_endtag(self, tag):
         if tag == "h1":
             self.in_title = False
-        if tag == "section":
-            self.in_excerpt = False
+        if tag == "section" and self.in_content:
+            self.in_content = False
+            # Use first 200 chars of content as excerpt if not set
+            if not self.excerpt and self.content_text:
+                self.excerpt = self.content_text[:200].strip()
 
 
 def extract_article_metadata(article_path):
@@ -130,20 +141,32 @@ def generate_index_page(articles, page_num, total_pages):
 
     posts_html = []
     for article in page_articles:
-        post_html = f"""
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title">
-                <a href="/blog/{article['url']}">{article['title']}</a>
-            </h2>
-        </header>
-        <section class="post-excerpt">
-            <p>{article['excerpt']} <a class="read-more" href="/blog/{article['url']}">»</a></p>
-        </section>
-        <footer class="post-meta">
-            <time class="post-date" datetime="{article['date'].isoformat() if article['date'] else ''}">{article['date_str']}</time>
-        </footer>
-    </article>"""
+        # Use original blog format with image and columns
+        image_html = f'<img style="width:92%;" alt="{article["title"]}" src="{article["image"]}" />' if article["image"] else ""
+        post_html = f"""<article class="post tag-getting-started row">
+  <header class="col-lg-4 post-loop-header">
+    <a href="{article['url']}">
+      {image_html}
+    </a>
+  </header>
+  <section class="post-excerpt col-lg-8">
+      <h2 class="post-title">
+        <a href="{article['url']}">
+          {article['title']}
+        </a>
+      </h2>
+      <p>
+        <a href="{article['url']}">
+          {article['excerpt']}...
+        </a>
+      </p>
+      <p class="read-more">
+        <a href="{article['url']}">
+          Lire la suite →
+        </a>
+      </p>
+  </section>
+</article>"""
         posts_html.append(post_html)
 
     # Generate pagination
@@ -160,8 +183,11 @@ def generate_index_page(articles, page_num, total_pages):
         {next_page}
     </nav>"""
 
-    # Read template from existing blog/index.html header/footer
-    template_file = BLOG_DIR / "index.html"
+    # Read template from original backup or existing blog/index.html header/footer
+    template_file = Path("/tmp/blog-index-template.html")
+    if not template_file.exists():
+        template_file = BLOG_DIR / "index.html"
+
     if template_file.exists():
         with open(template_file, 'r', encoding='utf-8') as f:
             template = f.read()
