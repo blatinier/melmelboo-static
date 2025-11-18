@@ -1,0 +1,8 @@
+/* Self-hosted Open Sans Condensed font */
+@font-face {
+  font-family: 'Open Sans Condensed';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(../fonts/opensanscondensed-light.ttf) format('truetype');
+}
