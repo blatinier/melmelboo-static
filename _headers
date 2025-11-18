@@ -1,0 +1,20 @@
+# Security and caching headers for Cloudflare Pages
+
+# Security headers for all HTML pages
+/blog/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://simpleshare.dev; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' https://images.melmelboo.fr data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'
+
+# Long cache for static assets (1 year)
+/blog/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Short cache for HTML pages (1 hour)
+/blog/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
