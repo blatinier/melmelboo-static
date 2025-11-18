@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" />
-    <link rel="stylesheet" type="text/css" href="../../assets/css/shadowbox.css" />
     <meta name="description" content="Le blog de Melmelboo !" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
@@ -309,9 +308,7 @@ Bilkyrkogården Kyrkö Mosse Il est déjà tard lorsque nous arrivons sur ce poi
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../assets/js/shadowbox.js"></script>
     <script type="text/javascript">
-      Shadowbox.init();
       $(function(){
         function createCookie(name,value,days) {
           var expires = "";
@@ -336,7 +333,6 @@ Bilkyrkogården Kyrkö Mosse Il est déjà tard lorsque nous arrivons sur ce poi
           createCookie(name,"",-1);
         }
         $(".post-content img").each(function(index){
-          $(this).wrap('<a href="https://www.melmelboo.fr/blog/'+$(this).attr("src")+'" title="'+$(this).attr("alt")+'" rel="shadowbox[Gallerie]" />');
         });
         if (readCookie('melmelboo-share-box') === "NOP") {
           $("#share-tooltip").hide();

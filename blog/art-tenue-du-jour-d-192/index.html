@@ -16,7 +16,6 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="../../css/isso.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" />
-    <link rel="stylesheet" type="text/css" href="../assets/css/shadowbox.css" />
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -266,7 +265,6 @@ Pour fêter les trente ans de l'élection de Mitterrand, les richissimes Pierre 
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../assets/js/shadowbox.js"></script>
     <script data-isso="//comments.melmelboo-voyage.fr/"
             data-isso-avatar="false"
             data-isso-require-author="true"
@@ -274,7 +272,6 @@ Pour fêter les trente ans de l'élection de Mitterrand, les richissimes Pierre 
             data-isso-css="false"
             src="https://comments.melmelboo-voyage.fr/js/embed.dev.js"></script>
     <script type="text/javascript">
-      Shadowbox.init();
       $(function(){
         function createCookie(name,value,days) {
           var expires = "";
@@ -299,7 +296,6 @@ Pour fêter les trente ans de l'élection de Mitterrand, les richissimes Pierre 
           createCookie(name,"",-1);
         }
         $(".post-content img").each(function(index){
-          $(this).wrap('<a href="https://www.melmelboo.fr/blog/art-tenue-du-jour-d-192/'+$(this).attr("src")+'" title="'+$(this).attr("alt")+'" rel="shadowbox[Gallerie]" />');
         });
         if (readCookie('melmelboo-share-box') === "NOP") {
           $("#share-tooltip").hide();
