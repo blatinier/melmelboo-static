@@ -1,8 +1,10 @@
 $(function(){
   function search() {
-      var txt = $('input#search').val()
-      var url = "//" + window.location.host + "/search/?q=" + txt;
-      window.location.replace(url)
+      var txt = $('input#search').val();
+      if (txt) {
+          var url = "https://www.ecosia.org/search?q=site:" + window.location.hostname + " " + encodeURIComponent(txt);
+          window.open(url, '_blank');
+      }
   }
   $('input#search').on('keydown', function(e) {
       if (e.which == 13) {
