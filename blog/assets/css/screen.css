@@ -659,14 +659,14 @@ body .post-title {
   height: 48px;
 }
 .older-posts {
-  background: url("https://www.melmelboo.fr/blog/assets/images/arrow.png") no-repeat right;
+  background: url("../images/arrow.png") no-repeat right;
   float: right;
   text-align: right;
   padding-right: 120px;
   right: 0;
 }
 .newer-posts {
-  background: url("https://www.melmelboo.fr/blog/assets/images/arrow-left.png") no-repeat left;
+  background: url("../images/arrow-left.png") no-repeat left;
   float: left;
   text-align: left;
   padding-left: 120px;
@@ -726,13 +726,13 @@ body .post-title {
   }
   .in-post .older-posts,
   .older-posts {
-    background: url("https://www.melmelboo.fr/blog/assets/images/arrow.png") no-repeat top;
+    background: url("../images/arrow.png") no-repeat top;
     margin-bottom: 0;
     padding-bottom: 0;
     text-align: center;
   }
   .newer-posts {
-    background: url("https://www.melmelboo.fr/blog/assets/images/arrow-left.png") no-repeat top;
+    background: url("../images/arrow-left.png") no-repeat top;
     border-bottom: 1px #CCC solid;
     text-align: center;
   }
